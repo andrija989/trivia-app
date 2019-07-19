@@ -3,6 +3,7 @@ import { ChuckService } from './../services/ChuckService'
 export const ChuckModule = {
     state: {
         randomJoke: null,
+        jokeCategory: null,
         error: null
     },
     getters:{
@@ -13,11 +14,11 @@ export const ChuckModule = {
     mutations:{
         setRandomJoke(state, joke) {
             state.randomJoke = joke;
-        }
+        },
     },
     actions:{
-        getRandomJoke(context,next) {
-            ChuckService.getRandomJoke()
+        getRandomJoke(context,next) {   //obrise se
+            ChuckService.getRandomJoke() // gura se store.state.jokeCategory
             .then((joke)=>{
                 context.commit('setRandomJoke',joke.value)
                 next()
@@ -25,6 +26,16 @@ export const ChuckModule = {
             .catch((error)=> {
                 console.log(error)
             })            
-        }
+        },
+        getCategoryJoke(context,category) {   //obrise se
+            ChuckService.getNewJoke(category) // gura se store.state.jokeCategory
+            .then((joke)=>{
+                context.commit('setRandomJoke',joke.value)
+                next()
+            })
+            .catch((error)=> {
+                console.log(error)
+            })            
+        },
     }
 }
